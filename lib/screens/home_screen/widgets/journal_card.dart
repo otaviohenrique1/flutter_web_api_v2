@@ -111,11 +111,15 @@ class JournalCard extends StatelessWidget {
       updatedAt: showedDate,
     );
 
+    Map<String, dynamic> map = {};
+
     if (journal != null) {
       innerJournal = journal;
+      map["is_editing"] = false;
+    } else {
+      map["is_editing"] = true;
     }
 
-    Map<String, dynamic> map = {};
     map["journal"] = innerJournal;
 
     Navigator.pushNamed(
