@@ -7,13 +7,17 @@ class AddJournalScreen extends StatelessWidget {
   AddJournalScreen({
     super.key,
     required this.journal,
+    required this.isEditing,
   });
 
   final Journal journal;
+  final bool isEditing;
   final TextEditingController _contentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    _contentController.text = journal.content;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(WeekDay(journal.createdAt).toString()),
