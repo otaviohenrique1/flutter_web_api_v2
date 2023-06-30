@@ -50,6 +50,15 @@ class JournalService {
     return false;
   }
 
+  Future<bool> delete(String id) async {
+    http.Response response = await http.delete(Uri.parse("${getUrl()}$id"));
+
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
   Future<List<Journal>> getAll() async {
     http.Response response = await client.get(Uri.parse(getUrl()));
     if (response.statusCode != 200) {
