@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_web_api_v2/services/auth_service.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
+
+  AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -64,5 +67,6 @@ class LoginScreen extends StatelessWidget {
   login() {
     String email = _emailController.text;
     String password = _passController.text;
+    authService.login(email: email, password: password);
   }
 }
