@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_web_api_v2/models/journal.dart';
 import 'package:flutter_web_api_v2/screens/add_journal_screen/add_journal_screen.dart';
 import 'package:flutter_web_api_v2/screens/home_screen/home_screen.dart';
+import 'package:flutter_web_api_v2/screens/login_screen/login_screen.dart';
 import 'package:flutter_web_api_v2/services/async_study.dart';
 import 'package:flutter_web_api_v2/services/journal_service.dart';
 // import 'package:google_fonts/google_fonts.dart';
@@ -12,7 +13,7 @@ void main() {
   JournalService service = JournalService();
   // service.register("Ola mundo");
   // service.register(Journal.empty());
-  service.getAll();
+  // service.getAll();
   asyncStudy();
 }
 
@@ -41,9 +42,10 @@ class App extends StatelessWidget {
       ),
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.light,
-      initialRoute: "home",
+      initialRoute: "login",
       routes: {
         "home": (context) => const HomeScreen(),
+        "login": (context) => const LoginScreen(),
         // "add-journal": (context) => AddJournalScreen(
         //       journal: Journal(
         //         id: "id",
