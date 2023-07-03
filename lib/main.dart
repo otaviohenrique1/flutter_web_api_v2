@@ -45,7 +45,7 @@ class App extends StatelessWidget {
       initialRoute: "login",
       routes: {
         "home": (context) => const HomeScreen(),
-        "login": (context) => const LoginScreen(),
+        "login": (context) => LoginScreen(),
         // "add-journal": (context) => AddJournalScreen(
         //       journal: Journal(
         //         id: "id",
