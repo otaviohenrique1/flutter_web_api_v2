@@ -137,6 +137,10 @@ flutter:
   # - Instalacao: npm install -g json-server
   # - json-server --watch --host SEU_IP_AQUI server/db.json
   # 
+  # json-server-auth Comandos:
+  # - Instalacao: npm install -g json-server-auth
+  # - json-server-auth --watch --host SEU_IP_AQUI server/db.json
+  # 
   # Comando para exibir o ip do pc: ipconfig 
   # 
   # No PowerShell: Set-ExecutionPolicy -ExecutionPolicy Unrestricted
