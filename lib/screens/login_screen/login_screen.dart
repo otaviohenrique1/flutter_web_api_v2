@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_web_api_v2/screens/commom/confirmation_dialog.dart';
 import 'package:flutter_web_api_v2/services/auth_service.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -30,10 +31,17 @@ class LoginScreen extends StatelessWidget {
                   ),
                   const Text(
                     "Simple Journal",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  const Text("por Alura",
-                      style: TextStyle(fontStyle: FontStyle.italic)),
+                  const Text(
+                    "por Alura",
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
                   const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Divider(thickness: 2),
@@ -48,13 +56,19 @@ class LoginScreen extends StatelessWidget {
                   ),
                   TextFormField(
                     controller: _passController,
-                    decoration: const InputDecoration(label: Text("Senha")),
+                    decoration: const InputDecoration(
+                      label: Text("Senha"),
+                    ),
                     keyboardType: TextInputType.visiblePassword,
                     maxLength: 16,
                     obscureText: true,
                   ),
                   ElevatedButton(
-                      onPressed: () {}, child: const Text("Continuar")),
+                    onPressed: () {
+                      login(context);
+                    },
+                    child: const Text("Continuar"),
+                  ),
                 ],
               ),
             ),
@@ -64,9 +78,23 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  login() {
+  login(BuildContext context) async {
     String email = _emailController.text;
     String password = _passController.text;
-    authService.login(email: email, password: password);
+    try {
+      bool result = await authService.login(email: email, password: password);
+    } on UserNotFoundException {
+      // print("Usuario não encontrado");
+      showConfirmationDialog(
+        context,
+        content:
+            "Deseja criar um novo usuário usando o e-mail $email e a senha inserida?",
+        affirmativeOption: "CRIAR",
+      ).then((value) {
+        if (value != null && value) {
+          authService.register(email: email, password: password);
+        }
+      });
+    }
   }
 }
