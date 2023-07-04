@@ -82,7 +82,13 @@ class LoginScreen extends StatelessWidget {
     String email = _emailController.text;
     String password = _passController.text;
     try {
-      bool result = await authService.login(email: email, password: password);
+      await authService
+          .login(email: email, password: password)
+          .then((resultLogin) {
+        if (resultLogin) {
+          Navigator.pushReplacementNamed(context, "home");
+        }
+      });
     } on UserNotFoundException {
       // print("Usuario não encontrado");
       showConfirmationDialog(
@@ -92,7 +98,13 @@ class LoginScreen extends StatelessWidget {
         affirmativeOption: "CRIAR",
       ).then((value) {
         if (value != null && value) {
-          authService.register(email: email, password: password);
+          authService
+              .register(email: email, password: password)
+              .then((resultLogin) {
+            if (resultLogin) {
+              Navigator.pushReplacementNamed(context, "home");
+            }
+          });
         }
       });
     }

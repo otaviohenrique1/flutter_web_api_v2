@@ -5,10 +5,17 @@ import 'package:flutter_web_api_v2/screens/home_screen/home_screen.dart';
 import 'package:flutter_web_api_v2/screens/login_screen/login_screen.dart';
 import 'package:flutter_web_api_v2/services/async_study.dart';
 import 'package:flutter_web_api_v2/services/journal_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:google_fonts/google_fonts.dart';
 
-void main() {
-  runApp(const App());
+void main() async {
+  // Colocar caso a main tenha o async
+  WidgetsFlutterBinding.ensureInitialized();
+
+  bool isLogged = await verifyToken();
+  runApp(MyApp(
+    isLogged: isLogged,
+  ));
 
   JournalService service = JournalService();
   // service.register("Ola mundo");
@@ -17,8 +24,19 @@ void main() {
   asyncStudy();
 }
 
-class App extends StatelessWidget {
-  const App({super.key});
+Future<bool> verifyToken() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? token = prefs.getString("accessToken");
+  if (token != null) {
+    return true;
+  }
+  return false;
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key, required this.isLogged});
+
+  final bool isLogged;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +60,7 @@ class App extends StatelessWidget {
       ),
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.light,
-      initialRoute: "login",
+      initialRoute: (isLogged) ? "home" : "login",
       routes: {
         "home": (context) => const HomeScreen(),
         "login": (context) => LoginScreen(),
