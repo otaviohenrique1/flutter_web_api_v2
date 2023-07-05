@@ -3,10 +3,7 @@ import 'package:flutter_web_api_v2/models/journal.dart';
 import 'package:flutter_web_api_v2/screens/add_journal_screen/add_journal_screen.dart';
 import 'package:flutter_web_api_v2/screens/home_screen/home_screen.dart';
 import 'package:flutter_web_api_v2/screens/login_screen/login_screen.dart';
-// import 'package:flutter_web_api_v2/helpers/async_study.dart';
-import 'package:flutter_web_api_v2/services/journal_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   // Colocar caso a main tenha o async
@@ -16,12 +13,6 @@ void main() async {
   runApp(MyApp(
     isLogged: isLogged,
   ));
-
-  JournalService service = JournalService();
-  // service.register("Ola mundo");
-  // service.register(Journal.empty());
-  // service.getAll();
-  // asyncStudy();
 }
 
 Future<bool> verifyToken() async {
