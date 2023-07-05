@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_web_api_v2/helpers/logout.dart';
 import 'package:flutter_web_api_v2/helpers/weekday.dart';
 import 'package:flutter_web_api_v2/models/journal.dart';
 import 'package:flutter_web_api_v2/screens/commom/confirmation_dialog.dart';
+import 'package:flutter_web_api_v2/screens/commom/exception_dialog.dart';
 import 'package:flutter_web_api_v2/services/journal_service.dart';
 import 'package:uuid/uuid.dart';
 
@@ -127,16 +131,29 @@ class JournalCard extends StatelessWidget {
       ).then((value) {
         if (value != null) {
           if (value) {
-            service.delete(journal!.id, token).then((value) {
-              if (value) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Removido com sucesso!"),
-                  ),
-                );
-                refreshFunction();
-              }
-            });
+            service.delete(journal!.id, token).then(
+              (value) {
+                if (value) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Removido com sucesso!"),
+                    ),
+                  );
+                  refreshFunction();
+                }
+              },
+            ).catchError(
+              (error) {
+                logout(context);
+              },
+              test: (error) => error is TokenNotValidException,
+            ).catchError(
+              (error) {
+                var innerError = error as HttpException;
+                showExceptionDialog(context, content: innerError.message);
+              },
+              test: (error) => error is HttpException,
+            );
           }
         }
       });
